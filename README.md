@@ -1,2 +1,0 @@
-# TinyRhinoJuniorDevTest
-Created with CodeSandbox
