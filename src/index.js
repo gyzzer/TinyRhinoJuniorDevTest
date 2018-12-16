@@ -43,6 +43,7 @@ class App extends React.Component {
 
 
     componentDidMount() {
+        this.getWeather();
         setInterval(() => this.getWeather(), 3000);
     }
 
@@ -80,10 +81,10 @@ class Weather extends React.Component {
     render() {
         return (
             <div>
-                <p>Current wind speed: {this.props.windSpeed}</p>
-                <p>Wind direction: {this.props.windDeg} </p>
-                <p>Current humidity: {this.props.humidity}</p>
-                <p>Last updated: {this.props.timestamp && this.convertToDate(this.props.timestamp)}</p>
+                {this.props.windSpeed && <p>Current wind speed: {this.props.windSpeed} meter/sec</p>}
+                {this.props.windDeg && <p>Wind direction (in degrees): {this.props.windDeg} </p>}
+                {this.props.humidity && <p>Current humidity: {this.props.humidity} %</p>}
+                {this.props.timestamp && <p>Last updated: {this.convertToDate(this.props.timestamp)}</p>}
             </div>
         );
     }
