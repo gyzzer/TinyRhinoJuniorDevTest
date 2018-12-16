@@ -22,6 +22,46 @@ let apiUrl =
 
 // ## Component 1 goes here ##
 
+class App extends React.Component {
+    state = {
+        windSpeed: undefined,
+        windDeg: undefined,
+        humidity: undefined,
+        timestamp: undefined
+    };
+
+    getWeather = async () => {
+        const apiData = await fetch(apiUrl);
+        const data = await apiData.json();
+        this.setState({
+            humidity: data.main.humidity,
+            windSpeed: data.wind.speed,
+            windDeg: data.wind.deg,
+            timestamp: data.dt
+        })
+    };
+
+
+    componentDidMount() {
+        setInterval(() => this.getWeather(), 3000);
+    }
+
+    render() {
+        return (
+            <div>
+                <Weather
+                    humidity={this.state.humidity}
+                    windSpeed={this.state.windSpeed}
+                    windDeg={this.state.windDeg}
+                    timestamp={this.state.timestamp}
+                />
+            </div>
+        );
+    }
+
+}
+
+
 // STEP 2:
 // Create a component which utilises your above component to display:
 // 1. The current wind speed and direction
@@ -30,8 +70,29 @@ let apiUrl =
 
 // ## Component 2 goes here ##
 
+class Weather extends React.Component {
+
+    convertToDate = function(timestamp){
+        let date = new Date(timestamp * 1000);
+        return date.toGMTString();
+    };
+
+    render() {
+        return (
+            <div>
+                <p>Current wind speed: {this.props.windSpeed}</p>
+                <p>Wind direction: {this.props.windDeg} </p>
+                <p>Current humidity: {this.props.humidity}</p>
+                <p>Last updated: {this.props.timestamp && this.convertToDate(this.props.timestamp)}</p>
+            </div>
+        );
+    }
+}
+
+
 // STEP 3:
 // Render the application here. I'll make this part easy :)
+// Thank you ;)
 
-// const rootElement = document.getElementById("root");
-// ReactDOM.render(<App />, rootElement);
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
